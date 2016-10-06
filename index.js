@@ -110,29 +110,6 @@ phpfpm.prototype.run = function(info, cb)
 	var phpfile = info.uri;
 	if (!phpfile.match(/^\//)) phpfile = this.options.documentRoot + phpfile;
 
-
-	// var PARAMS = 
-	// {
-	// 	QUERY_STRING: info.queryString.split('?').pop(),
-	// 	REQUEST_METHOD: info.method,
-	// 	CONTENT_TYPE: info.contentType || '',
-	// 	CONTENT_LENGTH: info.contentLength || '',
-	// 	SCRIPT_FILENAME: phpfile,
-	// 	SCRIPT_NAME: phpfile.split('/').pop(),
-	// 	REQUEST_URI: info.queryString,
-	// 	DOCUMENT_URI: phpfile,
-	// 	DOCUMENT_ROOT: this.options.documentRoot,
-	// 	SERVER_PROTOCOL: 'HTTP/1.1',
-	// 	GATEWAY_INTERFACE: 'CGI/1.1',
-	// 	REMOTE_ADDR: '127.0.0.1',
-	// 	REMOTE_PORT: 1234,
-	// 	SERVER_ADDR: '127.0.0.1',
-	// 	SERVER_PORT: 80,
-	// 	SERVER_NAME: '127.0.0.1',
-	// 	SERVER_SOFTWARE: 'node-phpfpm',
-	// 	REDIRECT_STATUS: 200
-	// };
-
 	this.setParam('QUERY_STRING', info.queryString.split('?').pop());
 	this.setParam('REQUEST_METHOD', info.method);
 	this.setParam('CONTENT_TYPE', info.contentType || '');
