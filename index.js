@@ -1,3 +1,10 @@
+/**
+ * phpfpm-framework, call php scripts (index.php for frameworks) by fastcgi
+ *  
+ * @author Alexandre Kalendarev akalend@mail.ru
+ * @author Chunlong longbill    longbill.cn@gmail.com
+ */
+
 var fastcgiConnector = require('fastcgi-client');
 module.exports = phpfpm;
 var urlencode = require('urlencode-for-php');
