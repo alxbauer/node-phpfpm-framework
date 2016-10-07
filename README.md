@@ -2,6 +2,24 @@
 nodejs run php scripts via phpfpm for some framework. It is fork of https://github.com/longbill/node-phpfpm/, but all HTTP requests send to index.php as to use .htaccess for more popular frameworks. So, this code has more improvements. 
 # dependency
 npm install fastcgi-client 
+
+# API
+
+available keys in options object
+
+    uri [string] path to your phpfile
+	url [string] the call of remote filename 'index.php'
+	queryString [string] original url 
+    method optional [string] HTTP method (default: GET)
+    json optional [object] json data that will be send with content-type: application/json
+    body optional [string] raw post body data for POST or PUT
+    contentType optional [string] the content-type header
+    contentLength optional [string] the content-length header
+	hostname optional [string] current hostname
+	remote_addr optional [string] remote ip client
+	referer optional [string] referer uri		
+	debug: optional [bool] default true, print to log all FCGI params
+
 # example
 ```
 var express = require('express');
