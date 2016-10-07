@@ -1,8 +1,9 @@
 /**
  * phpfpm-framework, call php scripts (index.php for frameworks) by fastcgi
  *  
- * @author Alexandre Kalendarev akalend@mail.ru
- * @author Chunlong longbill    longbill.cn@gmail.com
+ * @author Chunlong longbill      longbill.cn@gmail.com
+ * @author Alexandre Kalendarev   akalend@mail.ru
+ * @author Soldovskij Boris       soldovskij@hotmail.com
  */
 
 var fastcgiConnector = require('fastcgi-client');
