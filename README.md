@@ -4,7 +4,7 @@ nodejs run php scripts via phpfpm for some framework. It is fork of https://gith
 npm install fastcgi-client 
 
 # Configuration
-```
+```js
     var phpfpm = new PHPFPM(configObject);
 ```
 configObject may have the following keys:
@@ -33,7 +33,7 @@ available keys in options object
 * debug: optional [bool] default true, print to log all FCGI params
 
 # example
-```
+```js
 var express = require('express');
 var app = express();
 var cookieParser = require('cookie-parser')
