@@ -47,8 +47,22 @@ var phpfpm = new PHPFPM(
     documentRoot: '/home/akalend/project/lumen/test/public/'
 });
 
-
 app.use(cookieParser());
+
+// Simple Body parser
+app.use (function(req, res, next) {
+    var data='';
+    req.setEncoding('utf8');
+    req.on('data', function(chunk) {
+        data += chunk;
+    });
+
+    req.on('end', function() {
+        req.body = data;
+        next();
+    });
+});
+
 app.all('*', function(req, res, next) {
 
 	phpfpm.run(
@@ -58,14 +72,30 @@ app.all('*', function(req, res, next) {
 			method: req.method,
 			referer : req.get('Referer') || '',		
 			url: 'index.php',
-			debug: true,
-			queryString : req.originalUrl, 
+            debug: true,
+            contentType : 'application/json',
+            contentLength: req.contentLength || req.body.length,
+            queryString: req.originalUrl,
+            body: req.body
 			
 		}, 
-		function(err, output, phpErrors)
+		function(err, header, body, phpErrors)
 		{
 		    if (err == 99) console.error('PHPFPM server error');
-		    res.send(output);
+		    
+			// Process the headers
+            var headerLines = header.split(/\r?\n/);
+            for (var i = 0; i < headerLines.length; i++) {
+                var line = headerLines[i];
+                var headerParts = line.split(':', 2);
+                var headerKey = headerParts.shift().trim();
+                var headerValue = headerParts.shift().trim();
+
+                // Save the header
+                res.header(headerKey, headerValue);
+            }
+			
+			res.send(body);
 		    
 		    if (phpErrors) console.error(phpErrors);
 

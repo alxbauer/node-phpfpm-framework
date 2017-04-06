@@ -135,6 +135,7 @@ phpfpm.prototype.run = function(info, cb)
 
 
 	if (info.debug) {
+        console.log('===[ New Request ]===============================================');
 		console.log(this.PARAMS);
 	}
 
@@ -149,10 +150,10 @@ phpfpm.prototype.run = function(info, cb)
 			return;
 		}
 
-		var body = '',errors = '';
+		var output = '', errors = '';
 		request.stdout.on('data', function(data)
 		{
-			body += data.toString('utf8');
+			output += data.toString('utf8');
 		});
 
 		request.stderr.on('data', function(data)
@@ -162,14 +163,30 @@ phpfpm.prototype.run = function(info, cb)
 		
 		request.stdout.on('end', function()
 		{
-			body = body.replace(/^[\s\S]*?\r\n\r\n/, '');
-			cb(false, body, errors);
+			// Split header and body
+            var parts = output.split(/\r?\n\r?\n/, 2);
+            var header = parts.shift().trim();
+            var body = parts.length > 0 ? parts.shift().trim() : '';
+
+            if (info.debug) {
+                console.log('---[ Header from php-fpm response ]------------------');
+				console.log(header);
+                console.log('---[ Body from php-fpm response ]--------------------');
+				console.log(body);
+				console.log('-----------------------------------------------------');
+			}
+
+			cb(false, header, body, errors);
 		});
 
-		if (info.method == 'POST')
+		if (info.contentLength > 0)
 		{
-			request.stdin._write(info.body, 'utf8');
+            console.log('---[ Sent content to php-fpm]------------------------');
+            console.log(info.body);
+
+			request.stdin.write(info.body, 'utf8');
 		}
+
 		request.stdin.end();
 	});
 };
