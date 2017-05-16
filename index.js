@@ -133,6 +133,9 @@ phpfpm.prototype.run = function(info, cb)
 		this.PARAMS.SERVER_NAME = info.hostname;
 	}
 
+	if (info.cookie) {
+		this.PARAMS.HTTP_COOKIE = info.cookie;
+	}
 
 	if (info.debug) {
         console.log('===[ New Request ]===============================================');
