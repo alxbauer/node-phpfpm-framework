@@ -76,6 +76,7 @@ app.all('*', function(req, res, next) {
             contentType : 'application/json',
             contentLength: req.contentLength || req.body.length,
             queryString: req.originalUrl,
+			headers: req.headers || [],
             body: req.body
 			
 		}, 

@@ -121,20 +121,20 @@ phpfpm.prototype.run = function(info, cb)
 	this.setParam('DOCUMENT_URI', phpfile);
 	this.setParam('DOCUMENT_ROOT', this.options.documentRoot);
 
-	if (info.referer) {
-		this.PARAMS.HTTP_REFERER = info.referer;
-	}
+    if (info.debug)
+        console.log('===[ HTTP request headers ]===============================================');
 
-	if (info.remote_addr) {
-		this.PARAMS.REMOTE_ADDR = info.remote_addr;
-	}
+	for (var key in info.headers) {
+		if( info.headers.hasOwnProperty(key) ) {
+			var value = info.headers[key];
 
-	if (info.hostname) {
-		this.PARAMS.SERVER_NAME = info.hostname;
-	}
+			if (info.debug)
+				console.log(key + ' => ' + value);
 
-	if (info.cookie) {
-		this.PARAMS.HTTP_COOKIE = info.cookie;
+			var paramName = 'HTTP_' + key.toUpperCase().replace(new RegExp('-', 'g'), '_');
+
+			this.PARAMS[paramName] = value;
+		}
 	}
 
 	if (info.debug) {
